@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">perf_TFLite</string>
+    <string-array name="Model_IDs">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+</resources>

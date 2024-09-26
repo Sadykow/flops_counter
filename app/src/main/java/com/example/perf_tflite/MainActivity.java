@@ -94,8 +94,9 @@ public class MainActivity extends AppCompatActivity {
         //inputVal[0] = Float.valueOf(inputString);
 
         // Output shape is [1]
+        int N = 20;
         float[][] outputVal = new float[1][1];
-        float[] avgVal = new float[10];
+        float[] avgVal = new float[N];
         String outputText = "";
         float sumVal = 0;
         float maxTime = 0;
@@ -104,25 +105,21 @@ public class MainActivity extends AppCompatActivity {
         // Run inference passing the input shape and gettung the output shape
         try{
             // Usually 7632
-            for(int i = 0; i<10; i++) {
+            for(int i = 0; i<N; i++) {
                 startTimer = System.currentTimeMillis();
                 tflite.run(inputVal, outputVal);    // Single Pixel: 329ms
                                                     // Single Flare_4: 3926ms
                                                     // Single HTC: 1320ms
                 avgVal[i] = System.currentTimeMillis() - startTimer;
-                outputText += ("\nTime: "+avgVal[i]+"ms!");
+                if(i % 2 == 0) outputText += ("\nTime: "+avgVal[i]+"ms!");
                 sumVal += avgVal[i];
-                if(maxTime < avgVal[i]) {
-                    maxTime = avgVal[i];
-                }
-                if(minTime > avgVal[i]) {
-                    minTime = avgVal[i];
-                }
+                if(maxTime < avgVal[i])  maxTime = avgVal[i];
+                if(minTime > avgVal[i]) minTime = avgVal[i];
             }
             //int seconds = (int) (milis/1000);
-            outputText += ("\nAverage Time: " + sumVal/10 +"ms!");
+            outputText += ("\nAverage Time: " + sumVal/N +"ms!");
             outputText += ("\nMax Time: " + maxTime + "ms" + " Min Time: " + minTime + "ms");
-            PMTime = ((maxTime - sumVal/10) + (sumVal/10 - minTime))/2;
+            PMTime = ((maxTime - sumVal/N) + (sumVal/N - minTime))/2;
             outputText += ("\nPM Time: " + PMTime + "ms");
             infoBox.setText(outputText);
             //infoBox.setText(("Time: "+avgVal[0]+"ms "+avgVal[1]+"ms "+avgVal[2]+"ms "+avgVal[3]+"ms "+avgVal[4]+"ms!"));
